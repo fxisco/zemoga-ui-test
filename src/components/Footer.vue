@@ -110,7 +110,7 @@ export default {
 
     &__social-text {
       font-size: 0.938rem;
-      line-height: 1.125rem;
+      line-height: 1.313rem;
     }
 
     &__social,
