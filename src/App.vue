@@ -1,10 +1,12 @@
 <script>
 import Header from './components/Header.vue'
+import Banner from './components/Banner.vue'
 import Footer from './components/Footer.vue'
 
 export default {
   name: 'App',
   components: {
+    Banner,
     Header,
     Footer
   }
@@ -13,14 +15,11 @@ export default {
 </script>
 
 <template>
-  <div>
-    <Header />
-    <div class="content">
-      <hr class="separator" />
-    </div>
-    <div class="content">
-      <Footer />
-    </div>
+  <Header />
+  <div class="content">
+    <Banner />
+    <hr class="separator" />
+    <Footer />
   </div>
 </template>
 
@@ -28,12 +27,12 @@ export default {
 .content {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+  margin: 0 auto;
+  max-width: 68.75rem;
 }
 
 .separator {
   border-top: 2px dashed rgba(70, 70, 70, 1);
-  margin: 0 auto;
-  max-width: 68.75rem;
 }
 
 @media (min-width: 768px) {
