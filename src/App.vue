@@ -1,5 +1,6 @@
 <script>
 import Header from './components/Header.vue'
+import BannerTop from './components/BannerTop.vue'
 import Banner from './components/Banner.vue'
 import Footer from './components/Footer.vue'
 
@@ -7,6 +8,7 @@ export default {
   name: 'App',
   components: {
     Banner,
+    BannerTop,
     Header,
     Footer
   }
@@ -17,6 +19,7 @@ export default {
 <template>
   <Header />
   <div class="content">
+    <BannerTop />
     <Banner />
     <hr class="separator" />
     <Footer />

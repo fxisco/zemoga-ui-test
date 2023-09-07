@@ -108,14 +108,18 @@ export default {
       gap: 2.25rem;
     }
 
-    &__social-text {
-      font-size: 0.938rem;
-      line-height: 1.313rem;
-    }
-
     &__social,
     &__social-logos {
       gap: 1.125rem;
+    }
+
+    &__social {
+      align-items: center;
+    }
+
+    &__social-text {
+      font-size: 0.938rem;
+      line-height: 1.125rem;
     }
   }
 }
