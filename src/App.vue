@@ -4,6 +4,7 @@ import Hero from './components/Hero.vue'
 import BannerTop from './components/BannerTop.vue'
 import Banner from './components/Banner.vue'
 import Footer from './components/Footer.vue'
+import PreviousRuling from './components/PreviousRuling.vue'
 
 export default {
   name: 'App',
@@ -12,7 +13,8 @@ export default {
     BannerTop,
     Header,
     Hero,
-    Footer
+    Footer,
+    PreviousRuling
   }
 }
 
@@ -23,6 +25,7 @@ export default {
   <Hero />
   <div class="content">
     <BannerTop />
+    <PreviousRuling />
     <Banner />
     <hr class="separator" />
     <Footer />
