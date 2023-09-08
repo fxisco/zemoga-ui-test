@@ -1,5 +1,6 @@
 <script>
 import Header from './components/Header.vue'
+import Hero from './components/Hero.vue'
 import BannerTop from './components/BannerTop.vue'
 import Banner from './components/Banner.vue'
 import Footer from './components/Footer.vue'
@@ -10,6 +11,7 @@ export default {
     Banner,
     BannerTop,
     Header,
+    Hero,
     Footer
   }
 }
@@ -18,6 +20,7 @@ export default {
 
 <template>
   <Header />
+  <Hero />
   <div class="content">
     <BannerTop />
     <Banner />

@@ -5,18 +5,26 @@ export default {
 </script>
 
 <template>
-  <header class="header__container">
-    <div class="header__title-container">
-      <span class="header__page-name">Rule of thumb.</span>
+  <header class="header">
+    <div class="header__container">
+      <div class="header__title-container">
+        <span class="header__page-name">Rule of thumb.</span>
+      </div>
+      <button class="header__menu-icon" aria-haspopup="true" aria-expanded="false">
+        <img aria-hidden="true" src="../assets/hamburger.svg" />
+      </button>
     </div>
-    <button class="header__menu-icon" aria-haspopup="true" aria-expanded="false">
-      <img aria-hidden="true" src="../assets/hamburger.svg" />
-    </button>
   </header>
 </template>
 
 <style lang="scss">
 .header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
   &__container {
     background: linear-gradient(
       180deg,
