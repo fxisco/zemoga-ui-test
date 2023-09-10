@@ -1,6 +1,9 @@
 <script>
 export default {
   name: 'PreviousRuling',
+  data: () => ({
+    bgImage: 'src/assets/pope-francis.png'
+  }),
 }
 </script>
 
@@ -13,8 +16,9 @@ export default {
         <option value="list">List</option>
       </select>
     </div>
-    <div class="ruling__content">
-      <div class="ruling__rule">
+    <div class="ruling__content list">
+      <div class="ruling__rule list" :style="{ 'background-image': 'url(' + bgImage + ')' }">
+        <!-- <img class="ruling__image" src="../assets/pope-francis.png" aria-hidden="true"> -->
         <div class="ruling__container">
           <div class="ruling__author-container">
             <span class="ruling__author">Cristina</span>
@@ -49,7 +53,79 @@ export default {
 </template>
 
 <style lang="scss">
+
 .ruling {
+  &__image {
+    display: none;
+  }
+
+  &__content {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: scroll;
+
+    &.list {
+      overflow: unset;
+      flex-wrap: wrap;
+    }
+  }
+
+  &__rule {
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    flex: 0 0 18.75rem;
+    height: 18.75rem;
+    padding: 5.938rem 1.875rem;
+    position: relative;
+  }
+
+  &__rule.list {
+    flex: unset;
+    height: 8.875rem;
+    padding: 0;
+    width: 100%;
+    background-size: contain;
+    background-position: left;
+
+    .ruling__author-container {
+      left: 20%;
+      position: absolute;
+      width: 23rem;
+    }
+
+    .ruling__comment {
+      left: 20%;
+      position: absolute;
+      top: 3.25rem;
+      width: 21.375rem;
+    }
+
+    .ruling__overlay {
+      left: 1.875rem;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.0001) 0%, #888888 16.5%, #666666 50%, rgba(51, 51, 51, 0.6) 71.88%);
+    }
+
+    .ruling__time {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.875rem;
+    }
+
+    .ruling__actions {
+      position: absolute;
+      right: 0.875rem;
+      top: 2.563rem;
+    }
+
+    .ruling__vote {
+      top: 0;
+      left: 0;
+    }
+  }
+
   &__container {
     margin-bottom: 1.5rem;
   }
@@ -97,12 +173,6 @@ export default {
     -webkit-box-orient: vertical;
   }
 
-  &__content {
-    display: flex;
-    gap: 12px;
-    overflow-x: scroll;
-  }
-
   &__overlay {
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.6) 100%);
     bottom: 0;
@@ -110,18 +180,6 @@ export default {
     right: 0;
     height: 13.438rem;
     position: absolute;
-  }
-
-  &__rule {
-    box-sizing: border-box;
-    background-repeat: no-repeat;
-    background: url("../assets/pope-francis.png");
-    background-size: cover;
-    background-position: center;
-    flex: 0 0 18.75rem;
-    height: 18.75rem;
-    padding: 5.938rem 1.875rem;
-    position: relative;
   }
 
   &__container {
@@ -240,6 +298,14 @@ export default {
 
 @media (min-width: 768px) {
   .ruling {
+    &__rule {
+      overflow: hidden;
+    }
+
+    &__content {
+      gap: 0.875rem;
+    }
+
     &__container {
       margin-bottom: 1.75rem;
     }
@@ -250,6 +316,14 @@ export default {
 
     &__selection {
       display: unset;
+      height: 1.75rem;
+      width: 8.188rem;
+    }
+
+    &__image {
+      display: unset;
+      height: 100%;
+      position: absolute;
     }
   }
 }
