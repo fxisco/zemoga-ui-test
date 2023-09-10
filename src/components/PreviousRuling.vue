@@ -16,9 +16,8 @@ export default {
         <option value="list">List</option>
       </select>
     </div>
-    <div class="ruling__content list">
-      <div class="ruling__rule list" :style="{ 'background-image': 'url(' + bgImage + ')' }">
-        <!-- <img class="ruling__image" src="../assets/pope-francis.png" aria-hidden="true"> -->
+    <div class="ruling__content">
+      <div class="ruling__rule" :style="{ 'background-image': 'url(' + bgImage + ')' }">
         <div class="ruling__container">
           <div class="ruling__author-container">
             <span class="ruling__author">Cristina</span>
@@ -299,7 +298,14 @@ export default {
 @media (min-width: 768px) {
   .ruling {
     &__rule {
+      flex: 0 0 21.938rem;
+      height: 21.938rem;
       overflow: hidden;
+      padding: 9.125rem 2.125rem;
+    }
+
+    &__vote {
+      top: 9.125rem;
     }
 
     &__content {
@@ -330,6 +336,16 @@ export default {
 
 @media (min-width: 1440px) {
   .ruling {
+    &__rule {
+      flex: 0 0 21.75rem;
+      height: 21.75rem;
+    }
+
+    &__author {
+      font-size: 2.25rem;
+      line-height: 2.7rem;
+    }
+
     &__container {
       margin-bottom: 2.25rem;
     }
@@ -346,6 +362,83 @@ export default {
     &__selection {
       height: 2.25rem;
       width: 10.813rem;
+    }
+
+    &__rule.list {
+      height: 10.625rem;
+
+      .ruling__author-container {
+        width: 29.688rem;
+      }
+
+      .ruling__author {
+        font-size: 2.25rem;
+        line-height: 3.938rem;
+      }
+
+      .ruling__comment {
+        font-size: 1.125rem;
+        line-height: 1.35rem;
+        width: 34.25rem;
+      }
+
+      .ruling__vote {
+        height: 2.813rem;
+        width: 2.813rem;
+      }
+
+      .ruling__vote > img {
+        height: 1.5rem;
+        width: 1.5rem;
+      }
+
+      .ruling__progress {
+        font-size: 1.688rem;
+        line-height: 2.025rem;
+        height: 3.375rem;
+
+        &-right > img {
+          margin-right: 1.125rem;
+          margin-left: 0.563rem;
+        }
+
+        &-left > img {
+          margin-left: 1.125rem;
+          margin-right: 0.563rem;
+        }
+      }
+
+      .ruling__percentage > img {
+        height: 1.406rem;
+        width: 1.406rem;
+      }
+
+      .ruling__time {
+        font-size: 0.938rem;
+        line-height: 1.125rem;
+      }
+
+      .ruling__actions {
+        gap: 0.563rem;
+      }
+
+      .ruling__action {
+        height: 2.813rem;
+        width: 2.813rem;
+
+        img {
+          height: 1.5rem;
+          width: 1.5rem;
+        }
+
+        &--vote {
+          font-size: 1.125rem;
+          line-height: 1.35rem;
+          height: 2.813rem;
+          width: 8.438rem;
+        }
+      }
+
     }
   }
 }
