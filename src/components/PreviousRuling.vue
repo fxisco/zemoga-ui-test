@@ -1,9 +1,15 @@
 <script>
 export default {
   name: 'PreviousRuling',
+  inject: ['rules'],
   data: () => ({
     bgImage: 'src/assets/pope-francis.png'
   }),
+  methods: {
+    calculatePercentage(rule, value) {
+      return ((value / (rule.votes.positive + rule.votes.negative)) * 100).toFixed(1)
+    }
+  }
 }
 </script>
 
@@ -16,14 +22,14 @@ export default {
         <option value="list">List</option>
       </select>
     </div>
-    <div class="ruling__content">
-      <div class="ruling__rule" :style="{ 'background-image': 'url(' + bgImage + ')' }">
+    <div class="ruling__content list">
+      <div class="ruling__rule list" v-for="(rule, i) in rules" :style="{ 'background-image': 'url(' + bgImage + ')' }" :key="`rule.${i}`">
         <div class="ruling__container">
           <div class="ruling__author-container">
-            <span class="ruling__author">Cristina</span>
+            <span class="ruling__author">{{ rule.name }}</span>
           </div>
           <p class="ruling__comment">
-            Vestibulum diam ante, porttitor a odio eget, rhoncus.  Eu velit…et, rhoncus.  Eu velit…et, rhoncus.  Eu velit…
+            {{ rule.description }}
           </p>
           <p class="ruling__time">
             1 month ago in Entertainment
@@ -36,11 +42,11 @@ export default {
         </div>
         <div class="ruling__overlay"></div>
         <div class="ruling__progress">
-          <div class="ruling__percentage ruling__progress-left" :style="{ width: '25.5%' }">
-            <img src="../assets/thumbs-up.svg" aria-hidden="true"> 25.5%
+          <div class="ruling__percentage ruling__progress-left" :style="{ width: `${calculatePercentage(rule, rule.votes.positive)}%` }">
+            <img src="../assets/thumbs-up.svg" aria-hidden="true"> {{ calculatePercentage(rule, rule.votes.positive) }}%
           </div>
-          <div class="ruling__percentage ruling__progress-right" :style="{ width: '74.5%' }">
-            74.5% <img src="../assets/thumbs-down.svg" aria-hidden="true">
+          <div class="ruling__percentage ruling__progress-right" :style="{ width: `${calculatePercentage(rule, rule.votes.negative)}%` }">
+            {{ calculatePercentage(rule, rule.votes.negative) }}% <img src="../assets/thumbs-down.svg" aria-hidden="true">
           </div>
         </div>
         <div class="ruling__vote like">
