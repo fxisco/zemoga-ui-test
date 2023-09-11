@@ -1,14 +1,19 @@
 <script>
+import getTimeago from '../helpers/timeago'
 export default {
   name: 'PreviousRuling',
   inject: ['rules'],
   data: () => ({
-    bgImage: 'src/assets/pope-francis.png'
+    type: 'list'
   }),
   methods: {
+    formatCategory(category) {
+      return category.charAt(0).toUpperCase() + category.slice(1)
+    },
     calculatePercentage(rule, value) {
       return ((value / (rule.votes.positive + rule.votes.negative)) * 100).toFixed(1)
-    }
+    },
+    getTimeago
   }
 }
 </script>
@@ -17,13 +22,19 @@ export default {
   <section class="ruling__container">
     <div class="ruling__title-container">
       <h2 class="ruling__title">Previous Rulings</h2>
-      <select class="ruling__selection" name="type" id="type" >
+      <select class="ruling__selection" name="type" id="type" v-model="type">
         <option value="grid">Grid</option>
         <option value="list">List</option>
       </select>
     </div>
-    <div class="ruling__content list">
-      <div class="ruling__rule list" v-for="(rule, i) in rules" :style="{ 'background-image': 'url(' + bgImage + ')' }" :key="`rule.${i}`">
+    <div class="ruling__content" :class="{ 'list': type === 'list' }">
+      <div
+        class="ruling__rule"
+        :class="{ 'list': type === 'list' }"
+        v-for="(rule, i) in rules"
+        :style="{ 'background-image': 'url(' + '/src/assets/' + rule.picture + ')' }"
+        :key="`rule.${i}`"
+      >
         <div class="ruling__container">
           <div class="ruling__author-container">
             <span class="ruling__author">{{ rule.name }}</span>
@@ -32,7 +43,7 @@ export default {
             {{ rule.description }}
           </p>
           <p class="ruling__time">
-            1 month ago in Entertainment
+            {{ getTimeago(rule.lastUpdated) }} in {{ formatCategory(rule.category) }}
           </p>
           <div class="ruling__actions">
             <button class="ruling__action ruling__action--like" aria-label="Like"><img src="../assets/thumbs-up.svg" aria-hidden="true"></button>
@@ -337,6 +348,11 @@ export default {
       height: 100%;
       position: absolute;
     }
+
+    &__content {
+      overflow-x: unset;
+      flex-wrap: wrap;
+    }
   }
 }
 
@@ -380,6 +396,7 @@ export default {
       .ruling__author {
         font-size: 2.25rem;
         line-height: 3.938rem;
+        -webkit-line-clamp: 1;
       }
 
       .ruling__comment {
