@@ -232,7 +232,7 @@ export default {
     margin-bottom: 0.438rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
   }
 
@@ -369,7 +369,7 @@ export default {
       flex: 0 0 21.938rem;
       height: 21.938rem;
       overflow: hidden;
-      padding: 9.125rem 2.125rem;
+      padding: 8.438rem 2.125rem;
     }
 
     &__vote {
