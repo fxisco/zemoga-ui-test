@@ -1,10 +1,12 @@
 <script>
 import getTimeago from '../helpers/timeago'
+import rules from '../data.json'
 export default {
   name: 'PreviousRuling',
-  inject: ['rules'],
   data: () => ({
-    type: screen.width < 768 ? 'grid' : 'list'
+    rules: rules.data,
+    type: screen.width < 768 ? 'grid' : 'list',
+    selectedVotes: {}
   }),
   methods: {
     formatCategory(category) {
@@ -12,6 +14,31 @@ export default {
     },
     calculatePercentage(rule, value) {
       return ((value / (rule.votes.positive + rule.votes.negative)) * 100).toFixed(1)
+    },
+    selectVote(index, vote) {
+      this.selectedVotes[index] = vote
+    },
+    vote(index) {
+      this.rules.splice(index, 1, {
+        ...this.rules[index],
+        votes: {
+          ...this.rules[index].votes,
+          [this.selectedVotes[index]]: this.rules[index].votes[this.selectedVotes[index]] + 1
+        },
+        vote: this.selectedVotes[index]
+      });
+
+      this.selectedVotes[index] = undefined
+    },
+    voteAgain(index) {
+      this.rules.splice(index, 1, {
+        ...this.rules[index],
+        votes: {
+          ...this.rules[index].votes,
+          [this.rules[index].vote]: this.rules[index].votes[this.rules[index].vote] + 1
+        },
+        vote: null
+      });
     },
     getTimeago
   }
@@ -28,13 +55,8 @@ export default {
       </select>
     </div>
     <div class="ruling__content" :class="{ 'list': type === 'list' }">
-      <div
-        class="ruling__rule"
-        :class="{ 'list': type === 'list' }"
-        v-for="(rule, i) in rules"
-        :style="{ 'background-image': 'url(' + '/src/assets/' + rule.picture + ')' }"
-        :key="`rule.${i}`"
-      >
+      <div class="ruling__rule" :class="{ 'list': type === 'list' }" v-for="(rule, i) in rules"
+        :style="{ 'background-image': 'url(' + '/src/assets/' + rule.picture + ')' }" :key="`rule.${i}`">
         <div class="ruling__container">
           <div class="ruling__author-container">
             <span class="ruling__author">{{ rule.name }}</span>
@@ -43,25 +65,36 @@ export default {
             {{ rule.description }}
           </p>
           <p class="ruling__time">
-            {{ getTimeago(rule.lastUpdated) }} in {{ formatCategory(rule.category) }}
+            {{ rule.vote ? 'Thank you for your vote!' : `${getTimeago(rule.lastUpdated)} in ${formatCategory(rule.category)}` }}
           </p>
           <div class="ruling__actions">
-            <button class="ruling__action ruling__action--like" aria-label="Like"><img src="../assets/thumbs-up.svg" aria-hidden="true"></button>
-            <button class="ruling__action ruling__action--dislike" aria-label="Dislike"><img src="../assets/thumbs-down.svg" aria-hidden="true"></button>
-            <button class="ruling__action--vote">Vote</button>
+            <button v-if="!rule.vote" class="ruling__action ruling__action--like"
+              :class="{ 'ruling__action--selected': selectedVotes[i] === 'positive' }" @click="selectVote(i, 'positive')"
+              aria-label="Like">
+              <img src="../assets/thumbs-up.svg" aria-hidden="true">
+            </button>
+            <button v-if="!rule.vote" class="ruling__action ruling__action--dislike"
+              :class="{ 'ruling__action--selected': selectedVotes[i] === 'negative' }" @click="selectVote(i, 'negative')"
+              aria-label="Dislike">
+              <img src="../assets/thumbs-down.svg" aria-hidden="true">
+            </button>
+            <button @click="rule.vote ? voteAgain(i) : vote(i)" class="ruling__action--vote">{{ rule.vote ? 'Vote again' :
+              'Vote' }}</button>
           </div>
         </div>
         <div class="ruling__overlay"></div>
         <div class="ruling__progress">
-          <div class="ruling__percentage ruling__progress-left" :style="{ width: `${calculatePercentage(rule, rule.votes.positive)}%` }">
+          <div class="ruling__percentage ruling__progress-left"
+            :style="{ width: `${calculatePercentage(rule, rule.votes.positive)}%` }">
             <img src="../assets/thumbs-up.svg" aria-hidden="true"> {{ calculatePercentage(rule, rule.votes.positive) }}%
           </div>
-          <div class="ruling__percentage ruling__progress-right" :style="{ width: `${calculatePercentage(rule, rule.votes.negative)}%` }">
+          <div class="ruling__percentage ruling__progress-right"
+            :style="{ width: `${calculatePercentage(rule, rule.votes.negative)}%` }">
             {{ calculatePercentage(rule, rule.votes.negative) }}% <img src="../assets/thumbs-down.svg" aria-hidden="true">
           </div>
         </div>
-        <div class="ruling__vote like">
-          <img src="../assets/thumbs-up.svg" aria-hidden="true">
+        <div v-if="rule.vote" class="ruling__vote" :class="{ like: rule.vote === 'positive', dislike: rule.vote === 'negative'}">
+          <img :src="`/src/assets/${rule.vote === 'positive' ? 'thumbs-up': 'thumbs-down'}.svg`" aria-hidden="true">
         </div>
       </div>
     </div>
@@ -69,7 +102,6 @@ export default {
 </template>
 
 <style lang="scss">
-
 .ruling {
   &__image {
     display: none;
@@ -249,6 +281,10 @@ export default {
       height: 2.375rem;
       width: 6.688rem;
     }
+
+    &--selected {
+      border: 2px solid #FFF;
+    }
   }
 
   &__percentage {
@@ -277,12 +313,12 @@ export default {
       background: rgba(60, 187, 180, 0.6);
     }
 
-    &-right > img {
+    &-right>img {
       margin-right: 0.75rem;
       margin-left: 0.375rem;
     }
 
-    &-left > img {
+    &-left>img {
       margin-left: 0.75rem;
       margin-right: 0.375rem;
     }
@@ -410,7 +446,7 @@ export default {
         width: 2.813rem;
       }
 
-      .ruling__vote > img {
+      .ruling__vote>img {
         height: 1.5rem;
         width: 1.5rem;
       }
@@ -420,18 +456,18 @@ export default {
         line-height: 2.025rem;
         height: 3.375rem;
 
-        &-right > img {
+        &-right>img {
           margin-right: 1.125rem;
           margin-left: 0.563rem;
         }
 
-        &-left > img {
+        &-left>img {
           margin-left: 1.125rem;
           margin-right: 0.563rem;
         }
       }
 
-      .ruling__percentage > img {
+      .ruling__percentage>img {
         height: 1.406rem;
         width: 1.406rem;
       }

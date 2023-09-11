@@ -5,7 +5,6 @@ import BannerTop from './components/BannerTop.vue'
 import Banner from './components/Banner.vue'
 import Footer from './components/Footer.vue'
 import PreviousRuling from './components/PreviousRuling.vue'
-import dataSource from './data-source'
 
 export default {
   name: 'App',
@@ -16,10 +15,7 @@ export default {
     Hero,
     Footer,
     PreviousRuling
-  },
-  mixins: [
-    dataSource
-  ]
+  }
 }
 
 </script>
