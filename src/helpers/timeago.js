@@ -22,9 +22,6 @@ export default function getTimeAgo (utcDateString, currentDate = new Date()) {
   let divisor = null
   let unit = null
 
-  console.log("inputDate", inputDate)
-  console.log("secondsAgo", secondsAgo)
-
   if (secondsAgo < 0) {
     return 'seconds ago'
   } else if (secondsAgo < MINUTE) {

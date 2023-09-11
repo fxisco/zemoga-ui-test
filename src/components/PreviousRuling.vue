@@ -4,7 +4,7 @@ export default {
   name: 'PreviousRuling',
   inject: ['rules'],
   data: () => ({
-    type: 'list'
+    type: screen.width < 768 ? 'grid' : 'list'
   }),
   methods: {
     formatCategory(category) {
