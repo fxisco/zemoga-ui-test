@@ -1,6 +1,9 @@
 <script>
 import getTimeago from '../helpers/timeago'
 import rules from '../data.json'
+
+const STORAGE_KEY = 'zemoga-ui-test:rules'
+
 export default {
   name: 'PreviousRuling',
   data: () => ({
@@ -8,6 +11,13 @@ export default {
     type: screen.width < 768 ? 'grid' : 'list',
     selectedVotes: {}
   }),
+  mounted() {
+    const storedRules = JSON.parse(localStorage.getItem(STORAGE_KEY))
+
+    if (storedRules) {
+      this.rules = storedRules;
+    }
+  },
   methods: {
     formatCategory(category) {
       return category.charAt(0).toUpperCase() + category.slice(1)
@@ -29,6 +39,7 @@ export default {
       });
 
       this.selectedVotes[index] = undefined
+      this.saveRules()
     },
     voteAgain(index) {
       this.rules.splice(index, 1, {
@@ -39,6 +50,10 @@ export default {
         },
         vote: null
       });
+      this.saveRules()
+    },
+    saveRules() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.rules))
     },
     getTimeago
   }
